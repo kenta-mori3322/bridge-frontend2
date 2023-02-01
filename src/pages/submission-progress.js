@@ -33,11 +33,15 @@ export default function SubmissionProgress() {
   const originSentTxHash = useSelector(selectOriginSentTxHash);
   const targetSentTxHash = useSelector(selectTargetSentTxHash);
   const serviceFee = CalcFee();
-  
-  const startTime = moment(localStorage.getItem("start-tx"));
+
+  const [startTime, setStartTime] = useState(undefined);
   const [currentTime, setCurrentTime] = useState(moment().utc());
   const timeBetween = moment.duration(currentTime.diff(startTime));
   const { enqueueSnackbar } = useSnackbar();
+  
+  useEffect(() => {
+    setStartTime(moment(localStorage.getItem("start-tx")));
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
